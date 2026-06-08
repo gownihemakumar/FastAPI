@@ -1,0 +1,49 @@
+from fastapi import FastAPI,Body
+app = FastAPI()
+
+STUDENTS=[
+    {"id":"1","name":"hemu","age":19,"branch":"CSE"},
+    {"id":"2","name":"kishore","age":19,"branch":"ECE"}
+]
+@app.get("/")   #DECORATOR
+def index():
+    return "index method=working"
+
+
+@app.post("/create-student")
+def createstudent():
+    return "created new student"
+
+@app.put("/update-student")
+def updatestudent():
+    return "student data is updated"
+
+@app.delete("/delete-student")
+def deletestudent():
+    return "student data is deleted"
+@app.get("/students")
+def getAllstudents():
+    return STUDENTS
+
+
+@app.get("/single-student/{studentId}")
+def getstudentdetails(studentId):
+    singleData = []
+    for x in STUDENTS:
+        if x["id"] == studentId:
+            singleData.append(x)
+    return singleData
+
+
+@app.post('/add new student')
+def addstudent(newstudentData=Body()):
+    STUDENTS.append(newstudentData)
+    return newstudentData
+
+
+@app.delete("/delete-student/{studentId}")
+def deletestudent(studentId):
+    for i in range(len(STUDENTS)):
+        if STUDENTS[i]["Id"]==studentId:
+            STUDENTS.pop(i)
+            return STUDENTS
